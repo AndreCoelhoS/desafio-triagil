@@ -38,8 +38,10 @@ docker-compose up --build
 ## Exemplo de Uso
 
 ### Criar um Time
-```json
+```bash
 POST /api/teams
+```
+```json
 {
   "user": "andre",
   "team": [
@@ -60,7 +62,7 @@ POST /api/teams
 ```
 
 ### Obter Todos os Times Registrados
-```json
+```bash
 GET /api/teams
 ```
 ```json
@@ -127,7 +129,7 @@ GET /api/teams
 ```
 
 ### Obter Time pela ID
-```json
+```bash
 GET /api/teams/2
 ```
 ```json
