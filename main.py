@@ -4,12 +4,14 @@ import requests
 
 app = FastAPI()
 teams = {}
+registered_pokemons = {}
+keys = ["id","weight","height"]
 
 
 class Pokemon:
     def __init__(self, name: str, pokemon_data: Dict):
-        self.name = name
         self.id = pokemon_data["id"]
+        self.name = name
         self.weight = pokemon_data["weight"]
         self.height = pokemon_data["height"]
 
@@ -25,6 +27,7 @@ def get_pokemon_data(pokemon_name: str) -> Dict:
     if response.status_code != 200:
         return None
     pokemon_data = response.json()
+    pokemon_data = {key: pokemon_data[key] for key in keys}
     return pokemon_data
 
 
@@ -41,10 +44,14 @@ async def create_team(team_data: Dict):
     pokemon_instances = []
     for pokemon_name in team_list:
         pokemon_name = pokemon_name.lower()
-        pokemon_data = get_pokemon_data(pokemon_name)
-        if pokemon_data is None:
-            raise HTTPException(status_code=400, detail=f"Pokemon '{pokemon_name}' não encontrado")
-        pokemon = Pokemon(pokemon_name, pokemon_data)
+        if pokemon_name in registered_pokemons:
+            pokemon = registered_pokemons[pokemon_name]
+        else:
+            pokemon_data = get_pokemon_data(pokemon_name)
+            if pokemon_data is None:
+                raise HTTPException(status_code=400, detail=f"Pokemon '{pokemon_name}' não encontrado")
+            pokemon = Pokemon(pokemon_name, pokemon_data)
+            registered_pokemons[pokemon_name] = pokemon
         pokemon_instances.append(pokemon)
     
     team_id = len(teams) + 1
