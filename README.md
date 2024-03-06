@@ -71,38 +71,38 @@ GET /api/teams
     "owner": "andre",
     "pokemons": [
       {
-        "name": "articuno",
         "id": 144,
+        "name": "articuno",
         "weight": 554,
         "height": 17
       },
       {
-        "name": "zapdos",
         "id": 145,
+        "name": "zapdos",
         "weight": 526,
         "height": 16
       },
       {
-        "name": "moltres",
         "id": 146,
+        "name": "moltres",
         "weight": 600,
         "height": 20
       },
       {
-        "name": "mew",
         "id": 151,
+        "name": "mew",
         "weight": 40,
         "height": 4
       },
       {
-        "name": "mewtwo",
         "id": 150,
+        "name": "mewtwo",
         "weight": 1220,
         "height": 20
       },
       {
-        "name": "arceus",
         "id": 493,
+        "name": "arceus",
         "weight": 3200,
         "height": 32
       }
@@ -112,14 +112,14 @@ GET /api/teams
     "owner": "andre",
     "pokemons": [
       {
-        "name": "mew",
         "id": 151,
+        "name": "mew",
         "weight": 40,
         "height": 4
       },
       {
-        "name": "mewtwo",
         "id": 150,
+        "name": "mewtwo",
         "weight": 1220,
         "height": 20
       }
@@ -137,17 +137,21 @@ GET /api/teams/2
   "owner": "andre",
   "pokemons": [
     {
-      "name": "mew",
       "id": 151,
+      "name": "mew",
       "weight": 40,
       "height": 4
     },
     {
-      "name": "mewtwo",
       "id": 150,
+      "name": "mewtwo",
       "weight": 1220,
       "height": 20
     }
   ]
 }
 ```
+
+## Ambiente de Teste
+
+O projeto foi testado em um ambiente WSL2 utilizando Ubuntu 22.04.
