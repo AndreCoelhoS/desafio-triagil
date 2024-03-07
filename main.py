@@ -22,13 +22,21 @@ class Team:
         self.pokemons = pokemons
 
 
-def get_pokemon_data(pokemon_name: str) -> Dict:
-    response = requests.get(f"https://pokeapi.co/api/v2/pokemon/{pokemon_name}")
-    if response.status_code != 200:
-        return None
-    pokemon_data = response.json()
-    pokemon_data = {key: pokemon_data[key] for key in keys}
-    return pokemon_data
+def get_pokemon(pokemon_name: str) -> Dict:
+    if pokemon_name in registered_pokemons:
+            pokemon = registered_pokemons[pokemon_name]
+    else:
+        response = requests.get(f"https://pokeapi.co/api/v2/pokemon/{pokemon_name}")
+        if response.status_code != 200:
+            return None
+        pokemon_data = response.json()
+        if pokemon_data is None:
+            raise HTTPException(status_code=400, detail=f"Pokemon '{pokemon_name}' não encontrado")
+        pokemon_data = {key: pokemon_data[key] for key in keys}
+        pokemon = Pokemon(pokemon_name, pokemon_data)
+        registered_pokemons[pokemon_name] = pokemon
+
+    return pokemon
 
 
 @app.post("/api/teams")
@@ -44,14 +52,7 @@ async def create_team(team_data: Dict):
     pokemon_instances = []
     for pokemon_name in team_list:
         pokemon_name = pokemon_name.lower()
-        if pokemon_name in registered_pokemons:
-            pokemon = registered_pokemons[pokemon_name]
-        else:
-            pokemon_data = get_pokemon_data(pokemon_name)
-            if pokemon_data is None:
-                raise HTTPException(status_code=400, detail=f"Pokemon '{pokemon_name}' não encontrado")
-            pokemon = Pokemon(pokemon_name, pokemon_data)
-            registered_pokemons[pokemon_name] = pokemon
+        pokemon = get_pokemon(pokemon_name)
         pokemon_instances.append(pokemon)
     
     team_id = len(teams) + 1
