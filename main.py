@@ -48,6 +48,8 @@ async def create_team(team_data: Dict):
 
     pokemon_instances = []
     for pokemon_name in team_list:
+        if pokemon_name == "" or str(pokemon_name).isnumeric():
+            raise HTTPException(status_code=400, detail=f"Pokemon '{pokemon_name}' com nome inválido")
         pokemon_name = pokemon_name.lower()
         pokemon = get_pokemon(pokemon_name)
         pokemon_instances.append(pokemon)
